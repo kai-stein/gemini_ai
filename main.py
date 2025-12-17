@@ -12,7 +12,9 @@ def main():
         raise RuntimeError("No api key in .env file")
     
     client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(model='gemini-2.5-flash', contents='Why is the sky blue?')
+    response = client.models.generate_content(
+        model='gemini-2.5-flash', contents='Why is the sky blue'
+        )
     print(response.text)
 
 
