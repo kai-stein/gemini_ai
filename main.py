@@ -3,12 +3,14 @@ from dotenv import load_dotenv
 from google import genai
 import argparse
 from google.genai import types
+from prompts import system_prompt
 
 def main():
     print("Hello from gemini-ai!")
 
     load_dotenv()
     api_key = os.environ.get("GEMINI_API_KEY")
+    model_name = os.environ.get("AI_MODEL_NAME")
 
     if not api_key:
         raise RuntimeError("No api key in .env file")
@@ -22,7 +24,9 @@ def main():
 
     client = genai.Client(api_key=api_key)
     response = client.models.generate_content(
-        model='gemini-2.5-flash', contents=messages
+        model=model_name, 
+        contents=messages,
+        config=types.GenerateContentConfig(system_instruction=system_prompt),
         )
     
     if response.usage_metadata is None:
